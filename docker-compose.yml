@@ -1,7 +1,7 @@
 services:
 
   backend-ventas:
-    image: ferxys/innovatech-ventas:latest
+    image: 229134496675.dkr.ecr.us-east-1.amazonaws.com/devops-ventas:latest
     container_name: api_ventas
     restart: always
     ports:
@@ -12,7 +12,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
 
   backend-despachos:
-    image: ferxys/innovatech-despachos:latest
+    image: 229134496675.dkr.ecr.us-east-1.amazonaws.com/devops-despachos:latest
     container_name: api_despachos
     restart: always
     ports:
