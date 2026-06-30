@@ -34,7 +34,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          cd back-Ventas_SpringBoot/Springboot-API-REST
+          cd back-Ventas_SpringBoot
           docker build -t $ECR_REGISTRY/${ECR_REPO_VENTAS}:${IMAGE_TAG} .
           docker push $ECR_REGISTRY/${ECR_REPO_VENTAS}:${IMAGE_TAG}
 
@@ -42,7 +42,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          cd back-Despachos_SpringBoot/Springboot-API-REST-DESPACHO
+          cd back-Despachos_SpringBoot
           docker build -t $ECR_REGISTRY/${ECR_REPO_DESPACHOS}:${IMAGE_TAG} .
           docker push $ECR_REGISTRY/${ECR_REPO_DESPACHOS}:${IMAGE_TAG}
 
