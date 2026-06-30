@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
 
 env:
-  ECR_REPO_VENTAS: innovatech-ventas
-  ECR_REPO_DESPACHOS: innovatech-despachos
+  ECR_REPO_VENTAS: devops-ventas
+  ECR_REPO_DESPACHOS: devops-despachos
 
 jobs:
   build-and-deploy:
