@@ -21,7 +21,42 @@ spec:
         env:
         - name: SPRING_DATASOURCE_URL
           value: jdbc:mysql://mysql-service:3306/innovatech_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+        
+        # Consumiendo el usuario desde el Secret de forma segura
         - name: SPRING_DATASOURCE_USERNAME
-          value: admin
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_USER
+              
+        # Consumiendo la contraseña desde el Secret de forma segura
         - name: SPRING_DATASOURCE_PASSWORD
-          value: adminpassword
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_PASSWORD
+
+        # === AGREGADO DE HEALTH CHECKS (Feedback IE2) ===
+        # Revisa si la app sigue viva. Si falla, K8s reinicia el contenedor.
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        # Revisa si la app está lista para recibir tráfico de usuarios.
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        
+        # === RESOURCE REQUESTS Y LIMITS (Para que HPA funcione) ===
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi

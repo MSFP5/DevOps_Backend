@@ -25,3 +25,26 @@ spec:
           value: admin
         - name: SPRING_DATASOURCE_PASSWORD
           value: adminpassword
+        
+        # === AGREGADO DE HEALTH CHECKS (Feedback IE2) ===
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        
+        # === RESOURCE REQUESTS Y LIMITS (Para que HPA funcione) ===
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
