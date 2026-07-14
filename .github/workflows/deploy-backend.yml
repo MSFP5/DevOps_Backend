@@ -47,7 +47,7 @@ jobs:
 
       - uses: azure/setup-kubectl@v4
         with:
-          version: v1.34.0  # Sincronizado con tu EKS v1.34
+          version: v1.34.0
 
       - name: Configurar EKS
         run: |
@@ -58,7 +58,6 @@ jobs:
       - name: Aplicar recursos MySQL
         run: |
           kubectl apply -f k8s/mysql-secret.yaml
-          # Asegúrate de tener creados estos dos archivos dentro de la carpeta k8s/ de tu repositorio:
           kubectl apply -f k8s/mysql-deployment.yaml
           kubectl apply -f k8s/mysql-service.yaml
 
@@ -69,10 +68,10 @@ jobs:
           kubectl apply -f k8s/ventas-deployment.yaml
           kubectl apply -f k8s/ventas-service.yaml
 
-          # Corregido: Apunta a "innovatech-ventas" y al contenedor "ventas-app"
-          kubectl set image deployment/innovatech-ventas ventas-app=$ECR_REGISTRY/${ECR_REPO_VENTAS}:${IMAGE_TAG}
+          # Corrección: Apunta al deployment 'ventas' y al contenedor 'ventas'
+          kubectl set image deployment/ventas ventas=$ECR_REGISTRY/${ECR_REPO_VENTAS}:${IMAGE_TAG}
 
-          kubectl rollout status deployment/innovatech-ventas
+          kubectl rollout status deployment/ventas
 
       - name: Deploy Despachos
         env:
@@ -81,10 +80,10 @@ jobs:
           kubectl apply -f k8s/despachos-deployment.yaml
           kubectl apply -f k8s/despachos-service.yaml
 
-          # Corregido: Apunta a "innovatech-despachos" y al contenedor "despachos-app"
-          kubectl set image deployment/innovatech-despachos despachos-app=$ECR_REGISTRY/${ECR_REPO_DESPACHOS}:${IMAGE_TAG}
+          # Corrección: Apunta al deployment 'despachos' y al contenedor 'despachos'
+          kubectl set image deployment/despachos despachos=$ECR_REGISTRY/${ECR_REPO_DESPACHOS}:${IMAGE_TAG}
 
-          kubectl rollout status deployment/innovatech-despachos
+          kubectl rollout status deployment/despachos
 
       - name: HPA
         run: |
